@@ -3,8 +3,12 @@
 
 #include <unistd.h>
 
+#define PID_FILENAME "/var/run/a1mond.pid"
+
 int main() {
-	daemon_create();
+	if(daemon_create(PID_FILENAME))
+		return 1;
+
 	printf("Hello world!!\n");
 
 	while(g_daemon.is_running);

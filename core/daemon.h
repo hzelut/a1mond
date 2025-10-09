@@ -10,6 +10,8 @@
 #define WORKER_MAX 10
 
 typedef struct {
+	int				pid_fd;
+	char			pid_file[256];
 	bool			is_running;
 	pthread_t worker[WORKER_MAX];
 	queue_t*	job_que;
@@ -28,9 +30,10 @@ typedef struct {
 
 extern daemon_t g_daemon;
 
-void daemon_create();
-void daemon_free();
+int		daemon_create(const char* pid_fil);
+void	daemon_free();
 
-void push_job(void* (*func)(void*), void* arg);
+void	push_job(void* (*func)(void*), void* arg);
 
 #endif //__DAEMON_H__
+			 //
