@@ -218,7 +218,12 @@ void* _daemon_job_worker(void* arg) {
 			// find sa
 			for(int i = 0; i < g_daemon.sdb_len; i++) {
 				sa_t* cur = g_daemon.sdb[i];
-				if(cur->local.ip == pkt->dst ) {
+				if(cur->local.ip == pkt->dst && cur->remote.ip == pkt->src) {
+					sa_job_t* args = calloc(1, sizeof(sa_job_t));
+					args->self = cur;
+					args->data = pkt->data;
+					push_job(sa_worker, args);
+					break;
 				}
 			}
 		}
